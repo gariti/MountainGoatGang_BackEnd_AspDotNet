@@ -2,8 +2,9 @@
 using System.Data.Entity;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using MountainGoatGang_BackEnd_AspDotNet.Entities;
 
-namespace MountainGoatGang_BackEnd_AspDotNet.Entities
+namespace MountainGoatGang_BackEnd_AspDotNet
 {
     public partial class MountainGoatGangContext : DbContext
     {

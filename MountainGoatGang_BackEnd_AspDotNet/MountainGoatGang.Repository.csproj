@@ -86,9 +86,10 @@
   <ItemGroup>
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Hike.cs" />
-    <Compile Include="Entities\MountainGoatGangContext.cs" />
+    <Compile Include="MountainGoatGangContext.cs" />
     <Compile Include="Entities\Trail.cs" />
     <Compile Include="Entities\User.cs" />
+    <Compile Include="MountainGoatGangRepository.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <PropertyGroup>
