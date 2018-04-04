@@ -33,7 +33,7 @@ namespace MountainGoatGang
 
         public void Post([FromBody] Group group)
         {
-                var g = _groupFactory.CreateExpenseGroup(group);
+                var g = _groupFactory.CreateGroup(group);
                 _repository.AddGroup(g);
         }
 

@@ -5,7 +5,7 @@ namespace MountainGoatGang
 {
     internal class GroupFactory
     {
-        internal object CreateExpenseGroup(object expenseGroup)
+        internal Group CreateGroup(object expenseGroup)
         {
             throw new NotImplementedException();
         }

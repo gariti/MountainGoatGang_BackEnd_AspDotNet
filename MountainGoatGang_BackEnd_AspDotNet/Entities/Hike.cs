@@ -21,10 +21,6 @@ namespace MountainGoatGang.Repository
         [StringLength(250)]
         public DateTime Date { get; set; }
 
-        [Required]
-        [StringLength(250)]
-        public Status Status { get; set; }
-
         public Trail Trail { get; set; }
     }
 }
