@@ -12,15 +12,19 @@ namespace MountainGoatGang.Repository
         DbSet<Trail> GetTrails();
         User GetUser(int id);
         DbSet<User> GetUsers();
-        void AddGroup(object g);
-        void UpdateGroup(object g);
+        void AddGroup(Group g);
+        void UpdateGroup(Group g);
         void DeleteGroup(int id);
-        void AddHike(object h);
-        void UpdateHike(object g);
+        void AddHike(Hike h);
+        void UpdateHike(Hike g);
         void DeleteHike(int id);
         DbSet<User> GetAllUsers();
-        void AddUser(object u);
-        void UpdateUser(object h);
+        void AddUser(User u);
+        void UpdateUser(User h);
+        DbSet<Trail> GetAllTrails();
         void DeleteUser(int id);
+        void UpdateTrail(Trail h);
+        void AddTrail(Trail t);
+        void DeleteTrail(int id);
     }
 }
