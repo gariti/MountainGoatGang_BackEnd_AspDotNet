@@ -15,5 +15,8 @@ namespace MountainGoatGang.Repository
         void AddGroup(object g);
         void UpdateGroup(object g);
         void DeleteGroup(int id);
+        void AddHike(object h);
+        void UpdateHike(object g);
+        void DeleteHike(int id);
     }
 }
