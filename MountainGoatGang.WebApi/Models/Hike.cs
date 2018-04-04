@@ -1,4 +1,4 @@
-﻿using MountainGoatGang_BackEnd_AspDotNet.Entities;
+﻿using MountainGoatGang.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;

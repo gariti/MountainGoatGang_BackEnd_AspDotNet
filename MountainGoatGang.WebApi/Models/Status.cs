@@ -1,4 +1,4 @@
-﻿namespace MountainGoatGang_BackEnd_AspDotNet
+﻿namespace MountainGoatGang
 {
     public enum Status { Upcoming, Complete, Cancelled, Postponed, Tentative,  InProgress, WishList};
 }

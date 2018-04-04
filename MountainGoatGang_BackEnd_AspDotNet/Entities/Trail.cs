@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MountainGoatGang_BackEnd_AspDotNet.Entities
+namespace MountainGoatGang.Repository
 {
     [Table("Trail")]
     public partial class Trail

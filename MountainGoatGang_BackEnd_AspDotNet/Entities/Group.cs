@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
 
-namespace MountainGoatGang_BackEnd_AspDotNet.Entities
+namespace MountainGoatGang.Repository
 {
     [Table("Group")]
     public partial class Group

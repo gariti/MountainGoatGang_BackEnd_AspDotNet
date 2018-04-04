@@ -1,4 +1,4 @@
-﻿namespace MountainGoatGang_BackEnd_AspDotNet.Entities
+﻿namespace MountainGoatGang.Entities
 {
     public class GpsPoint
     {
