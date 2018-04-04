@@ -18,5 +18,9 @@ namespace MountainGoatGang.Repository
         void AddHike(object h);
         void UpdateHike(object g);
         void DeleteHike(int id);
+        DbSet<User> GetAllUsers();
+        void AddUser(object u);
+        void UpdateUser(object h);
+        void DeleteUser(int id);
     }
 }

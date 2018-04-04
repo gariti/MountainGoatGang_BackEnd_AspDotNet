@@ -186,9 +186,11 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
-    <Compile Include="Controllers\GroupFactory.cs" />
+    <Compile Include="Factory\UserFactory.cs" />
+    <Compile Include="Controllers\UsersController.cs" />
+    <Compile Include="Factory\GroupFactory.cs" />
     <Compile Include="Controllers\GroupsController.cs" />
-    <Compile Include="Controllers\HikeFactory.cs" />
+    <Compile Include="Factory\HikeFactory.cs" />
     <Compile Include="Controllers\HikesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
