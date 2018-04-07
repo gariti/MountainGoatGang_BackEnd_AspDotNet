@@ -13,10 +13,9 @@ namespace MountainGoatGang.WebApi.Models
         }
 
         public int Id { get; set; }
-        public string UserId { get; set; }
         public string GroupName { get; set; }
-        public string GroupDescription { get; set; }
-        public int GroupStatusId { get; set; }
+        public string Description { get; set; }
+        public int StatusId { get; set; }
         public virtual ICollection<User> Users { get; set; }
         public virtual ICollection<Hike> Hikes { get; set; }
     }

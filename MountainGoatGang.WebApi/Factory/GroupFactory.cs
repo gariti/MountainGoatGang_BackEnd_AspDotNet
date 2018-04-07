@@ -1,18 +1,27 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using MountainGoatGang.Repository;
 
 namespace MountainGoatGang
 {
-    internal class GroupFactory
+    public class GroupFactory
     {
-        internal Group CreateGroup(object expenseGroup)
+        public GroupFactory()
         {
-            throw new NotImplementedException();
+
         }
 
-        internal Group AddGroup(Group group)
+        public Group CreateGroup(Group Group)
         {
-            throw new NotImplementedException();
+            return new Group()
+            {
+                Description = Group.Description,
+                StatusId = Group.StatusId,
+                Id = Group.Id,
+                Users = Group.Users,
+                Hikes = Group.Hikes
+            };
         }
     }
 }

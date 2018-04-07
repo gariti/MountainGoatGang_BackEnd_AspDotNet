@@ -24,9 +24,9 @@ namespace MountainGoatGang.Repository
 
         [Required]
         [StringLength(1000)]
-        public string GroupDescription { get; set; }
+        public string Description { get; set; }
 
-        public int GroupStatusId { get; set; }
+        public int StatusId { get; set; }
 
         public virtual ICollection<User> Users { get; set; }
 
