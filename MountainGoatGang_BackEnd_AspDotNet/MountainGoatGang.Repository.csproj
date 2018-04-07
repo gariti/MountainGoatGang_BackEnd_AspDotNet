@@ -84,7 +84,6 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\GpsPoint.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Hike.cs" />
     <Compile Include="Repository\IMountainGoatGangRepository.cs" />
