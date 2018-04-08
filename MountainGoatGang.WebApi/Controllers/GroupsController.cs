@@ -39,8 +39,7 @@ namespace MountainGoatGang
 
         public void Put(int id, [FromBody] Group group)
         {
-                //map
-                var g = _groupFactory.AddGroup(group);
+                var g = _groupFactory.CreateGroup(group);
 
                 _repository.UpdateGroup(g);
         }
@@ -56,7 +55,6 @@ namespace MountainGoatGang
                 groupJsonPatchDocument.ApplyTo(g);
 
                 _repository.UpdateGroup(_groupFactory.AddGroup(g));
-
         }
 
         public void Delete(int id)

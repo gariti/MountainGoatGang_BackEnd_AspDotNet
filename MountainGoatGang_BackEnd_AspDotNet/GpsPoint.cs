@@ -1,4 +1,4 @@
-﻿namespace MountainGoatGang.WebApi.Models
+﻿namespace MountainGoatGang
 {
     public class GpsPoint
     {

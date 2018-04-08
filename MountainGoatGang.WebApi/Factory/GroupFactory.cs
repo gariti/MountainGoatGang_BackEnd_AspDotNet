@@ -23,5 +23,10 @@ namespace MountainGoatGang
                 Hikes = Group.Hikes
             };
         }
+
+        internal Group AddGroup(Group group)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
