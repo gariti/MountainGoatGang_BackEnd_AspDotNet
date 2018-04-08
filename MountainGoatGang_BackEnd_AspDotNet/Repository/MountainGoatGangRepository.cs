@@ -25,6 +25,18 @@ namespace MountainGoatGang.Repository
             return _dbContext.Hikes;
         }
 
+        public IQueryable<Hike> GetHikesForGroupId(int groupId)
+        {
+            var group = _dbContext.Groups.FirstOrDefault(g => g.Id == groupId);
+            return group.Hikes;
+        }
+
+        public IQueryable<Trail> GetTrailsForHikeId(int hikeId)
+        {
+            var hike = _dbContext.Hikes.FirstOrDefault(h => h.Id == hikeId);
+            return hike.Trails;
+        }
+
         public DbSet<User> GetAllUsers()
         {
             return _dbContext.Users;
@@ -391,5 +403,6 @@ namespace MountainGoatGang.Repository
                 //return new RepositoryActionResult<Trail>(null, RepositoryActionStatus.Error, ex);
             }
         }
+
     }
 }

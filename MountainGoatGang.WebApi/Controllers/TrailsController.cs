@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data.Entity;
+using System.Linq;
 using System.Web.Http;
 using Marvin.JsonPatch;
 using MountainGoatGang.Repository;
 
 namespace MountainGoatGang
 {
+    [RoutePrefix("api")]
     public class TrailsController : ApiController
     {
         IMountainGoatGangRepository _repository;
@@ -21,22 +23,26 @@ namespace MountainGoatGang
             _repository = repository;
         }
 
+        [Route("trails")]
         public DbSet<Trail> Get()
         {
             return _repository.GetAllTrails();
         }
 
-        public Trail Get(int id)
+        [Route("hikes/{HikeId}/trails")]
+        public IQueryable<Trail> Get(int id)
         {
-            return _repository.GetTrail(id);
+            return _repository.GetTrailsForHikeId(id);
         }
 
+        [Route("trails")]
         public void Post([FromBody] Trail trail)
         {
             var t = _trailFactory.AddTrail(trail);
             _repository.AddTrail(t);
         }
 
+        [Route("trails/{id}")]
         public void Put(int id, [FromBody] Trail trail)
         {
             //map
@@ -45,6 +51,8 @@ namespace MountainGoatGang
             _repository.UpdateTrail(t);
         }
 
+        [Route("trails/{id}")]
+        [HttpPatch]
         public void Patch(int id,
             [FromBody]JsonPatchDocument<Trail> trailJsonPatchDocument)
         {
@@ -59,6 +67,7 @@ namespace MountainGoatGang
 
         }
 
+        [Route("trails/{id}")]
         public void Delete(int id)
         {
             _repository.DeleteTrail(id);

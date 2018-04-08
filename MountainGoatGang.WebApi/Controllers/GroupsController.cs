@@ -6,6 +6,7 @@ using MountainGoatGang.Repository;
 
 namespace MountainGoatGang
 {
+    [RoutePrefix("api")]
     public class GroupsController : ApiController
     {
         IMountainGoatGangRepository _repository;
@@ -21,22 +22,26 @@ namespace MountainGoatGang
             _repository = repository;
         }
 
+        [Route("api/groups")]
         public DbSet<Group> Get()
         {
            return _repository.GetAllGroups();
         }
 
+        [Route("api/groups/{GroupId}")]
         public Group Get(int id)
         {
                 return _repository.GetGroup(id);
         }
 
+        [Route("groups")]
         public void Post([FromBody] Group group)
         {
                 var g = _groupFactory.CreateGroup(group);
                 _repository.AddGroup(g);
         }
 
+        [Route("groups/{id}")]
         public void Put(int id, [FromBody] Group group)
         {
                 var g = _groupFactory.CreateGroup(group);
@@ -44,6 +49,8 @@ namespace MountainGoatGang
                 _repository.UpdateGroup(g);
         }
 
+        [Route("groups/{id}")]
+        [HttpPatch]
         public void Patch(int id,
             [FromBody]JsonPatchDocument<Group> groupJsonPatchDocument)
         {
@@ -57,6 +64,7 @@ namespace MountainGoatGang
                 _repository.UpdateGroup(_groupFactory.AddGroup(g));
         }
 
+        [Route("groups/{id}")]
         public void Delete(int id)
         {
             _repository.DeleteGroup(id);

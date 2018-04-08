@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Data.Entity.Spatial;
+using System.Linq;
 
 namespace MountainGoatGang.Repository
 {
@@ -28,9 +29,9 @@ namespace MountainGoatGang.Repository
 
         public int StatusId { get; set; }
 
-        public virtual ICollection<User> Users { get; set; }
+        public virtual IQueryable<User> Users { get; set; }
 
-        public virtual ICollection<Hike> Hikes { get; set; }
+        public virtual IQueryable<Hike> Hikes { get; set; }
 
 
     }

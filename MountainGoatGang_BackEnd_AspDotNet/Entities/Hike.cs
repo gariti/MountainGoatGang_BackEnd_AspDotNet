@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
 
 namespace MountainGoatGang.Repository
 {
@@ -21,6 +22,6 @@ namespace MountainGoatGang.Repository
         [StringLength(250)]
         public DateTime Date { get; set; }
 
-        public Trail Trail { get; set; }
+        public IQueryable<Trail> Trails { get; set; }
     }
 }

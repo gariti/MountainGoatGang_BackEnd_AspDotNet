@@ -12,6 +12,6 @@ namespace MountainGoatGang.WebApi.Models
         public string Description { get; set; }
         public DateTime Date { get; set; }
         public Hike Status { get; set; }
-        public Trail Trail { get; set; }
+        public IQueryable<Trail> Trails { get; set; }
     }
 }
