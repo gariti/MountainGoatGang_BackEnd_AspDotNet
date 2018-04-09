@@ -16,7 +16,6 @@ namespace MountainGoatGang.Repository
         }
 
         [Required]
-        [StringLength(100)]
         public int Id { get; set; }
 
         [Required]

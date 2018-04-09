@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+
 namespace MountainGoatGang.Repository
 {
     [Table("Trail")]
@@ -22,9 +24,8 @@ namespace MountainGoatGang.Repository
 
         public TrailDifficulty TrailDifficulty { get; set; }
 
-        public List<GpsPoint> GpsCoordinates { get; set; }
+        public IQueryable<GpsTrack> GpsTracks { get; set; }
 
     }
 
-    public enum TrailDifficulty { Easy, Medium, Difficult, Extreme, CertainDeath};
 }

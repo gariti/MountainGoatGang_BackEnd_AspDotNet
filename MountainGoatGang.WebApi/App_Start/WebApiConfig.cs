@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace MountainGoatGang.WebApi
@@ -16,20 +17,25 @@ namespace MountainGoatGang.WebApi
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+               name: "DefaultRouting",
+               routeTemplate: "api/{controller}/{id}",
+               defaults: new { id = RouteParameter.Optional }
+           );
+
 
             config.Formatters.XmlFormatter.SupportedMediaTypes.Clear();
 
-            config.Formatters.JsonFormatter.SerializerSettings.Formatting
-                = Newtonsoft.Json.Formatting.Indented;
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(
+                new MediaTypeHeaderValue("application/json-patch+json"));
 
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver
-                = new CamelCasePropertyNamesContractResolver();
+            var json = config.Formatters.JsonFormatter;
+            json.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            json.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+
+            config.MessageHandlers.Add(new CacheCow.Server.CachingHandler(config));
 
             return config;
+
         }
     }
 }

@@ -19,7 +19,6 @@ namespace MountainGoatGang.Repository
         public string Description { get; set; }
 
         [Required]
-        [StringLength(250)]
         public DateTime Date { get; set; }
 
         public IQueryable<Trail> Trails { get; set; }

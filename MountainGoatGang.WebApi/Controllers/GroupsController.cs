@@ -22,13 +22,13 @@ namespace MountainGoatGang
             _repository = repository;
         }
 
-        [Route("api/groups")]
+        [Route("groups")]
         public DbSet<Group> Get()
         {
            return _repository.GetAllGroups();
         }
 
-        [Route("api/groups/{GroupId}")]
+        [Route("groups/{GroupId}")]
         public Group Get(int id)
         {
                 return _repository.GetGroup(id);
