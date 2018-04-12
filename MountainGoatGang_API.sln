@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MountainGoatGang.Repository
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MountainGoatGang.WebApi", "MountainGoatGang.WebApi\MountainGoatGang.WebApi.csproj", "{1BA47889-D395-4245-9F0E-30DABAC0BD85}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MountainGoatGang.Tests", "MountainGoatGang.Tests\MountainGoatGang.Tests.csproj", "{3158F6B6-58A4-40E5-BE4D-33B676FBD5A7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{1BA47889-D395-4245-9F0E-30DABAC0BD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1BA47889-D395-4245-9F0E-30DABAC0BD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1BA47889-D395-4245-9F0E-30DABAC0BD85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3158F6B6-58A4-40E5-BE4D-33B676FBD5A7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3158F6B6-58A4-40E5-BE4D-33B676FBD5A7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3158F6B6-58A4-40E5-BE4D-33B676FBD5A7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3158F6B6-58A4-40E5-BE4D-33B676FBD5A7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

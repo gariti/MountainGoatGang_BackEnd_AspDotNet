@@ -29,5 +29,6 @@ namespace MountainGoatGang.Repository
 
         }
 
+        public System.Data.Entity.DbSet<MountainGoatGang.Repository.GpsTrack> GpsTracks { get; set; }
     }
 }

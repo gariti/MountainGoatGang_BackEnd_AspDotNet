@@ -114,7 +114,7 @@
     <Compile Include="Entities\GpsTrack.cs" />
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Hike.cs" />
-    <Compile Include="Entities\HikeStatus.cs" />
+    <Compile Include="HikeStatus.cs" />
     <Compile Include="Repository\IMountainGoatGangRepository.cs" />
     <Compile Include="Context\MountainGoatGangContext.cs" />
     <Compile Include="Entities\Trail.cs" />

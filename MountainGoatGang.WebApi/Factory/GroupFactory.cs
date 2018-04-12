@@ -17,7 +17,6 @@ namespace MountainGoatGang
             return new Group()
             {
                 Description = Group.Description,
-                StatusId = Group.StatusId,
                 Id = Group.Id,
                 Users = Group.Users,
                 Hikes = Group.Hikes
