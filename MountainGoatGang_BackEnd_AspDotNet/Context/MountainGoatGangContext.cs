@@ -15,6 +15,7 @@ namespace MountainGoatGang.Repository
         public virtual DbSet<Hike> Hikes { get; set; }
         public virtual DbSet<Trail> Trails { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<GpsTrack> GpsTracks { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -26,9 +27,9 @@ namespace MountainGoatGang.Repository
 
             modelBuilder.Entity<User>();
 
+            modelBuilder.Entity<GpsTrack>();
 
         }
 
-        public System.Data.Entity.DbSet<MountainGoatGang.Repository.GpsTrack> GpsTracks { get; set; }
     }
 }
