@@ -9,6 +9,7 @@ namespace MountainGoatGang.Repository
     {
         public MountainGoatGangContext() : base("name=MountainGoatGangContext")
         {
+            Database.SetInitializer(new DropCreateDatabaseIfModelChanges<MountainGoatGangContext>());
         }
 
         public virtual DbSet<Group> Groups { get; set; }

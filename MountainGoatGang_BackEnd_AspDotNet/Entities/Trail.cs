@@ -26,6 +26,7 @@ namespace MountainGoatGang.Repository
 
         public IQueryable<GpsTrack> GpsTracks { get; set; }
 
+        public Hike hike { get; set; }
     }
 
 }

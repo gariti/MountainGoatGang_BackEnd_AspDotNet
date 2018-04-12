@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using MountainGoatGang.Repository;
 
@@ -18,7 +19,9 @@ namespace MountainGoatGang.Tests
             {
                 Name = "MountainGoatGang",
                 Description = "The first Mountain Goat Gang group!!",
-                Id = 1
+                Id = 1,
+                Users = null,
+                Hikes = null
             };
 
             //Act
