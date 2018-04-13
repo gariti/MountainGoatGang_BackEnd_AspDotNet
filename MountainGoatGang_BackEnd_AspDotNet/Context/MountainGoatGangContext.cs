@@ -9,7 +9,8 @@ namespace MountainGoatGang.Repository
     {
         public MountainGoatGangContext() : base("name=MountainGoatGangContext")
         {
-            Database.SetInitializer(new MountainGoatGangDBInitializer ());
+            Database.SetInitializer(new MountainGoatGangDBInitializer());
+
         }
 
         public virtual DbSet<Group> Groups { get; set; }
@@ -31,13 +32,8 @@ namespace MountainGoatGang.Repository
             modelBuilder.Entity<Hike>()
                 .HasMany(h => h.Trails).WithMany();
 
-
-            modelBuilder.Entity<User>();
-
             modelBuilder.Entity<Trail>()
-                .HasOptional(t => t.GpsTracks);
-
-            modelBuilder.Entity<GpsTrack>();
+                .HasMany(t => t.GpsTracks);
 
         }
     }

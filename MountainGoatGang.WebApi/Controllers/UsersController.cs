@@ -1,74 +1,118 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using Marvin.JsonPatch;
+using System.Web.Http.Description;
 using MountainGoatGang.Repository;
 
-namespace MountainGoatGang
+namespace MountainGoatGang.WebApi.Controllers
 {
-    [RoutePrefix("api")]
     public class UsersController : ApiController
     {
-        IMountainGoatGangRepository _repository;
-        UserFactory _userFactory = new UserFactory();
+        private MountainGoatGangContext db = new MountainGoatGangContext();
 
-        public UsersController()
+        // GET: api/Users
+        public IQueryable<User> GetUsers()
         {
-            _repository = new MountainGoatGangRepository(new
-                MountainGoatGangContext());
-        }
-        public UsersController(IMountainGoatGangRepository repository)
-        {
-            _repository = repository;
+            return db.Users;
         }
 
-        [Route("users")]
-        public DbSet<User> Get()
+        // GET: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult GetUser(int id)
         {
-            return _repository.GetAllUsers();
-        }
-        [Route("users/{UserId}")]
-        public User Get(int id)
-        {
-            return _repository.GetUser(id);
-        }
+            User user = db.Users.Find(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
 
-        [Route("users")]
-        public void Post([FromBody] User user)
-        {
-            var u = _userFactory.AddUser(user);
-            _repository.AddUser(u);
+            return Ok(user);
         }
 
-        [Route("users/{id}")]
-        public void Put(int id, [FromBody] User user)
+        // PUT: api/Users/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutUser(int id, User user)
         {
-            //map
-            var u = _userFactory.AddUser(user);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            _repository.UpdateUser(u);
+            if (id != user.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(user).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!UserExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        [Route("users/{id}")]
-        [HttpPatch]
-        public void Patch(int id,
-            [FromBody]JsonPatchDocument<User> userJsonPatchDocument)
+        // POST: api/Users
+        [ResponseType(typeof(User))]
+        public IHttpActionResult PostUser(User user)
         {
-            var user = _repository.GetUser(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-            //map
-            var u = _userFactory.AddUser(user);
+            db.Users.Add(user);
+            db.SaveChanges();
 
-            userJsonPatchDocument.ApplyTo(u);
-
-            _repository.UpdateUser(_userFactory.AddUser(u));
-
+            return CreatedAtRoute("DefaultApi", new { id = user.Id }, user);
         }
 
-        [Route("users/{id}")]
-        public void Delete(int id)
+        // DELETE: api/Users/5
+        [ResponseType(typeof(User))]
+        public IHttpActionResult DeleteUser(int id)
         {
-            _repository.DeleteUser(id);
+            User user = db.Users.Find(id);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            db.Users.Remove(user);
+            db.SaveChanges();
+
+            return Ok(user);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        private bool UserExists(int id)
+        {
+            return db.Users.Count(e => e.Id == id) > 0;
         }
     }
 }

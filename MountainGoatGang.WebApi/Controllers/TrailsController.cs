@@ -1,77 +1,118 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using Marvin.JsonPatch;
+using System.Web.Http.Description;
 using MountainGoatGang.Repository;
 
-namespace MountainGoatGang
+namespace MountainGoatGang.WebApi.Controllers
 {
-    [RoutePrefix("api")]
     public class TrailsController : ApiController
     {
-        IMountainGoatGangRepository _repository;
-        TrailFactory _trailFactory = new TrailFactory();
+        private MountainGoatGangContext db = new MountainGoatGangContext();
 
-        public TrailsController()
+        // GET: api/Trails
+        public IQueryable<Trail> GetTrails()
         {
-            _repository = new MountainGoatGangRepository(new
-                MountainGoatGangContext());
-        }
-        public TrailsController(IMountainGoatGangRepository repository)
-        {
-            _repository = repository;
+            return db.Trails;
         }
 
-        [Route("trails")]
-        public DbSet<Trail> Get()
+        // GET: api/Trails/5
+        [ResponseType(typeof(Trail))]
+        public IHttpActionResult GetTrail(int id)
         {
-            return _repository.GetAllTrails();
+            Trail trail = db.Trails.Find(id);
+            if (trail == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(trail);
         }
 
-        [Route("hikes/{HikeId}/trails")]
-        public ICollection<Trail> Get(int id)
+        // PUT: api/Trails/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutTrail(int id, Trail trail)
         {
-            return _repository.GetTrailsForHikeId(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != trail.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(trail).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!TrailExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        [Route("trails")]
-        public void Post([FromBody] Trail trail)
+        // POST: api/Trails
+        [ResponseType(typeof(Trail))]
+        public IHttpActionResult PostTrail(Trail trail)
         {
-            var t = _trailFactory.AddTrail(trail);
-            _repository.AddTrail(t);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Trails.Add(trail);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = trail.Id }, trail);
         }
 
-        [Route("trails/{id}")]
-        public void Put(int id, [FromBody] Trail trail)
+        // DELETE: api/Trails/5
+        [ResponseType(typeof(Trail))]
+        public IHttpActionResult DeleteTrail(int id)
         {
-            //map
-            var t = _trailFactory.AddTrail(trail);
+            Trail trail = db.Trails.Find(id);
+            if (trail == null)
+            {
+                return NotFound();
+            }
 
-            _repository.UpdateTrail(t);
+            db.Trails.Remove(trail);
+            db.SaveChanges();
+
+            return Ok(trail);
         }
 
-        [Route("trails/{id}")]
-        [HttpPatch]
-        public void Patch(int id,
-            [FromBody]JsonPatchDocument<Trail> trailJsonPatchDocument)
+        protected override void Dispose(bool disposing)
         {
-            var trail = _repository.GetTrail(id);
-
-            //map
-            var h = _trailFactory.AddTrail(trail);
-
-            trailJsonPatchDocument.ApplyTo(h);
-
-            _repository.UpdateTrail(_trailFactory.AddTrail(h));
-
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
-        [Route("trails/{id}")]
-        public void Delete(int id)
+        private bool TrailExists(int id)
         {
-            _repository.DeleteTrail(id);
+            return db.Trails.Count(e => e.Id == id) > 0;
         }
     }
 }

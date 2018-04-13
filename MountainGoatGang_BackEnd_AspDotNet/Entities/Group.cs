@@ -7,7 +7,6 @@ using System.Linq;
 
 namespace MountainGoatGang.Repository
 {
-    [Table("Group")]
     public partial class Group
     {
         public Group()
@@ -15,15 +14,10 @@ namespace MountainGoatGang.Repository
 
         }
 
-        [Required]
         public int Id { get; set; }
 
-        [Required]
-        [StringLength(100)]
         public string Name { get; set; }
 
-        [Required]
-        [StringLength(1000)]
         public string Description { get; set; }
 
         public virtual ICollection<User> Users { get; set; }

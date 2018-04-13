@@ -1,73 +1,118 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
-using Marvin.JsonPatch;
+using System.Web.Http.Description;
 using MountainGoatGang.Repository;
 
-namespace MountainGoatGang
+namespace MountainGoatGang.WebApi.Controllers
 {
-    [RoutePrefix("api")]
     public class GroupsController : ApiController
     {
-        IMountainGoatGangRepository _repository;
-        GroupFactory _groupFactory = new GroupFactory();
+        private MountainGoatGangContext db = new MountainGoatGangContext();
 
-        public GroupsController()
+        // GET: api/Groups
+        public IQueryable<Group> GetGroups()
         {
-            _repository = new MountainGoatGangRepository(new
-                MountainGoatGangContext());
-        }
-        public GroupsController(IMountainGoatGangRepository repository)
-        {
-            _repository = repository;
+            return db.Groups;
         }
 
-        [Route("groups")]
-        public DbSet<Group> Get()
+        // GET: api/Groups/5
+        [ResponseType(typeof(Group))]
+        public IHttpActionResult GetGroup(int id)
         {
-           return _repository.GetAllGroups();
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(group);
         }
 
-        [Route("groups/{GroupId}")]
-        public Group Get(int id)
+        // PUT: api/Groups/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutGroup(int id, Group group)
         {
-                return _repository.GetGroup(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != group.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(group).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!GroupExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        [Route("groups")]
-        public void Post([FromBody] Group group)
+        // POST: api/Groups
+        [ResponseType(typeof(Group))]
+        public IHttpActionResult PostGroup(Group group)
         {
-                var g = _groupFactory.CreateGroup(group);
-                _repository.AddGroup(g);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Groups.Add(group);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = group.Id }, group);
         }
 
-        [Route("groups/{id}")]
-        public void Put(int id, [FromBody] Group group)
+        // DELETE: api/Groups/5
+        [ResponseType(typeof(Group))]
+        public IHttpActionResult DeleteGroup(int id)
         {
-                var g = _groupFactory.CreateGroup(group);
+            Group group = db.Groups.Find(id);
+            if (group == null)
+            {
+                return NotFound();
+            }
 
-                _repository.UpdateGroup(g);
+            db.Groups.Remove(group);
+            db.SaveChanges();
+
+            return Ok(group);
         }
 
-        [Route("groups/{id}")]
-        [HttpPatch]
-        public void Patch(int id,
-            [FromBody]JsonPatchDocument<Group> groupJsonPatchDocument)
+        protected override void Dispose(bool disposing)
         {
-                var group = _repository.GetGroup(id);
-
-                //map
-                var g = _groupFactory.AddGroup(group);
-
-                groupJsonPatchDocument.ApplyTo(g);
-
-                _repository.UpdateGroup(_groupFactory.AddGroup(g));
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
-        [Route("groups/{id}")]
-        public void Delete(int id)
+        private bool GroupExists(int id)
         {
-            _repository.DeleteGroup(id);
+            return db.Groups.Count(e => e.Id == id) > 0;
         }
     }
 }

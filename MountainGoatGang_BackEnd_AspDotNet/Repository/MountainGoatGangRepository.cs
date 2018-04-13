@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 
 namespace MountainGoatGang.Repository
 {
@@ -15,14 +14,14 @@ namespace MountainGoatGang.Repository
             _dbContext = dbContext;
         }
 
-        public DbSet<Group> GetAllGroups()
+        public ICollection<Group> GetAllGroups()
         {
-            return _dbContext.Groups;
+            return _dbContext.Groups.ToList();
         }
 
-        public DbSet<Hike> GetAllHikes()
+        public ICollection<Hike> GetAllHikes()
         {
-            return _dbContext.Hikes;
+            return _dbContext.Hikes.ToList();
         }
 
         public ICollection<Hike> GetHikesForGroupId(int groupId)
@@ -37,14 +36,19 @@ namespace MountainGoatGang.Repository
             return hike.Trails;
         }
 
-        public DbSet<User> GetAllUsers()
+        public ICollection<User> GetAllUsers()
         {
-            return _dbContext.Users;
+            return _dbContext.Users.ToList();
         }
 
-        public DbSet<Trail> GetAllTrails()
+        public ICollection<Trail> GetAllTrails()
         {
-            return _dbContext.Trails;
+            return _dbContext.Trails.ToList();
+        }
+
+        public ICollection<GpsTrack> GetAllGpsTracks()
+        {
+            return _dbContext.GpsTracks.ToList();
         }
 
         public Group GetGroup(int id)
@@ -65,6 +69,11 @@ namespace MountainGoatGang.Repository
         public Trail GetTrail(int id)
         {
             return _dbContext.Trails.FirstOrDefault(t => t.Id.Equals(id));
+        }
+
+        public GpsTrack GetGpsTrack(int id)
+        {
+            return _dbContext.GpsTracks.FirstOrDefault(t => t.Id.Equals(id));
         }
 
         public void AddGroup(Group g)
@@ -151,6 +160,27 @@ namespace MountainGoatGang.Repository
             }
         }
 
+        public void AddGpsTrack(GpsTrack g)
+        {
+            try
+            {
+                _dbContext.GpsTracks.Add(g);
+                var result = _dbContext.SaveChanges();
+                if (result > 0)
+                {
+                    //return new RepositoryActionResult<Trail>(t, RepositoryActionStatus.Created);
+                }
+                else
+                {
+                    //return new RepositoryActionResult<Trail>(t, RepositoryActionStatus.NothingModified, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                //return new RepositoryActionResult<Trail>(null, RepositoryActionStatus.Error, ex);
+            }
+        }
+
         public void UpdateGroup(Group g)
         {
             try
@@ -176,7 +206,6 @@ namespace MountainGoatGang.Repository
                 // set the updated entity state to modified, so it gets updated.
                 _dbContext.Entry(g).State = EntityState.Modified;
 
-
                 var result = _dbContext.SaveChanges();
                 if (result > 0)
                 {
@@ -186,7 +215,6 @@ namespace MountainGoatGang.Repository
                 {
                     //return new RepositoryActionResult<Group>(g, RepositoryActionStatus.NothingModified, null);
                 }
-
             }
             catch (Exception ex)
             {
@@ -219,7 +247,6 @@ namespace MountainGoatGang.Repository
                 // set the updated entity state to modified, so it gets updated.
                 _dbContext.Entry(h).State = EntityState.Modified;
 
-
                 var result = _dbContext.SaveChanges();
                 if (result > 0)
                 {
@@ -229,7 +256,6 @@ namespace MountainGoatGang.Repository
                 {
                     //return new RepositoryActionResult<Hike>(h, RepositoryActionStatus.NothingModified, null);
                 }
-
             }
             catch (Exception ex)
             {
@@ -262,7 +288,6 @@ namespace MountainGoatGang.Repository
                 // set the updated entity state to modified, so it gets updated.
                 _dbContext.Entry(h).State = EntityState.Modified;
 
-
                 var result = _dbContext.SaveChanges();
                 if (result > 0)
                 {
@@ -272,7 +297,6 @@ namespace MountainGoatGang.Repository
                 {
                     //return new RepositoryActionResult<User>(u, RepositoryActionStatus.NothingModified, null);
                 }
-
             }
             catch (Exception ex)
             {
@@ -305,6 +329,46 @@ namespace MountainGoatGang.Repository
                 // set the updated entity state to modified, so it gets updated.
                 _dbContext.Entry(t).State = EntityState.Modified;
 
+                var result = _dbContext.SaveChanges();
+                if (result > 0)
+                {
+                    //return new RepositoryActionResult<Trail>(t, RepositoryActionStatus.Updated);
+                }
+                else
+                {
+                    //return new RepositoryActionResult<Trail>(t, RepositoryActionStatus.NothingModified, null);
+                }
+            }
+            catch (Exception ex)
+            {
+                //return new RepositoryActionResult<User>(null, RepositoryActionStatus.Error, ex);
+            }
+        }
+
+        public void UpdateGpsTrack(GpsTrack g)
+        {
+            try
+            {
+                // you can only update when trail already exists for this id
+
+                var existingGpsTrack = _dbContext.GpsTracks.FirstOrDefault(gt => gt.Id == g.Id);
+
+                if (existingGpsTrack == null)
+                {
+                    //return new RepositoryActionResult<User>(g, RepositoryActionStatus.NotFound);
+                }
+
+                // change the original entity status to detached; otherwise, we get an error on attach
+                // as the entity is already in the dbSet
+
+                // set original entity state to detached
+                _dbContext.Entry(existingGpsTrack).State = EntityState.Detached;
+
+                // attach & save
+                _dbContext.GpsTracks.Attach(g);
+
+                // set the updated entity state to modified, so it gets updated.
+                _dbContext.Entry(g).State = EntityState.Modified;
 
                 var result = _dbContext.SaveChanges();
                 if (result > 0)
@@ -315,7 +379,6 @@ namespace MountainGoatGang.Repository
                 {
                     //return new RepositoryActionResult<Trail>(t, RepositoryActionStatus.NothingModified, null);
                 }
-
             }
             catch (Exception ex)
             {
@@ -327,7 +390,6 @@ namespace MountainGoatGang.Repository
         {
             try
             {
-
                 var grp = _dbContext.Groups.Where(g => g.Id == id).FirstOrDefault();
                 if (grp != null)
                 {
@@ -404,5 +466,24 @@ namespace MountainGoatGang.Repository
             }
         }
 
+        public void DeleteGpsTrack(int id)
+        {
+            try
+            {
+                var gpsTrack = _dbContext.GpsTracks.Where(g => g.Id == id).FirstOrDefault();
+                if (gpsTrack != null)
+                {
+                    _dbContext.GpsTracks.Remove(gpsTrack);
+
+                    _dbContext.SaveChanges();
+                    //return new RepositoryActionResult<Trail>(null, RepositoryActionStatus.Deleted);
+                }
+                //return new RepositoryActionResult<Trail>(null, RepositoryActionStatus.NotFound);
+            }
+            catch (Exception ex)
+            {
+                //return new RepositoryActionResult<Trail>(null, RepositoryActionStatus.Error, ex);
+            }
+        }
     }
 }

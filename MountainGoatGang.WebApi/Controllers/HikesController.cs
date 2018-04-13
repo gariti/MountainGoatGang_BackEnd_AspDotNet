@@ -1,77 +1,118 @@
 ﻿using System;
-using System.Linq;
-using System.Data.Entity;
-using System.Web.Http;
-using Marvin.JsonPatch;
-using MountainGoatGang.Repository;
 using System.Collections.Generic;
+using System.Data;
+using System.Data.Entity;
+using System.Data.Entity.Infrastructure;
+using System.Linq;
+using System.Net;
+using System.Net.Http;
+using System.Web.Http;
+using System.Web.Http.Description;
+using MountainGoatGang.Repository;
 
-namespace MountainGoatGang
+namespace MountainGoatGang.WebApi.Controllers
 {
-    [RoutePrefix("api")]
     public class HikesController : ApiController
     {
-        IMountainGoatGangRepository _repository;
-        HikeFactory _hikeFactory = new HikeFactory();
+        private MountainGoatGangContext db = new MountainGoatGangContext();
 
-        public HikesController()
+        // GET: api/Hikes
+        public IQueryable<Hike> GetHikes()
         {
-            _repository = new MountainGoatGangRepository(new
-                MountainGoatGangContext());
-        }
-        public HikesController(IMountainGoatGangRepository repository)
-        {
-            _repository = repository;
+            return db.Hikes;
         }
 
-        [Route("hikes")]
-        public DbSet<Hike> Get()
+        // GET: api/Hikes/5
+        [ResponseType(typeof(Hike))]
+        public IHttpActionResult GetHike(int id)
         {
-            return _repository.GetAllHikes();
+            Hike hike = db.Hikes.Find(id);
+            if (hike == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(hike);
         }
 
-        [Route("groups/{GroupId}/hikes")]
-        public ICollection<Hike> Get(int groupId)
+        // PUT: api/Hikes/5
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PutHike(int id, Hike hike)
         {
-            return _repository.GetHikesForGroupId(groupId);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (id != hike.Id)
+            {
+                return BadRequest();
+            }
+
+            db.Entry(hike).State = EntityState.Modified;
+
+            try
+            {
+                db.SaveChanges();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!HikeExists(id))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return StatusCode(HttpStatusCode.NoContent);
         }
 
-        [Route("expenses")]
-        public void Post([FromBody] Hike hike)
+        // POST: api/Hikes
+        [ResponseType(typeof(Hike))]
+        public IHttpActionResult PostHike(Hike hike)
         {
-            var h = _hikeFactory.AddHike(hike);
-            _repository.AddHike(h);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            db.Hikes.Add(hike);
+            db.SaveChanges();
+
+            return CreatedAtRoute("DefaultApi", new { id = hike.Id }, hike);
         }
 
-        [Route("hikes/{id}")]
-        public void Put(int id, [FromBody] Hike hike)
+        // DELETE: api/Hikes/5
+        [ResponseType(typeof(Hike))]
+        public IHttpActionResult DeleteHike(int id)
         {
-            //map
-            var h = _hikeFactory.AddHike(hike);
+            Hike hike = db.Hikes.Find(id);
+            if (hike == null)
+            {
+                return NotFound();
+            }
 
-            _repository.UpdateHike(h);
+            db.Hikes.Remove(hike);
+            db.SaveChanges();
+
+            return Ok(hike);
         }
 
-        [Route("hikes/{id}")]
-        [HttpPatch]
-        public void Patch(int id,
-            [FromBody]JsonPatchDocument<Hike> hikeJsonPatchDocument)
+        protected override void Dispose(bool disposing)
         {
-            var hike = _repository.GetHike(id);
-
-            //map
-            var h = _hikeFactory.AddHike(hike);
-
-            hikeJsonPatchDocument.ApplyTo(h);
-
-            _repository.UpdateHike(_hikeFactory.AddHike(h));
-
+            if (disposing)
+            {
+                db.Dispose();
+            }
+            base.Dispose(disposing);
         }
 
-        [Route("hikes/{id}")]
-        public void Delete(int id)
+        private bool HikeExists(int id)
         {
-            _repository.DeleteHike(id);
+            return db.Hikes.Count(e => e.Id == id) > 0;
         }
     }
 }
