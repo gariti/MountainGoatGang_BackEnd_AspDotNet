@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
@@ -30,7 +31,7 @@ namespace MountainGoatGang
         }
 
         [Route("hikes/{HikeId}/trails")]
-        public IQueryable<Trail> Get(int id)
+        public ICollection<Trail> Get(int id)
         {
             return _repository.GetTrailsForHikeId(id);
         }

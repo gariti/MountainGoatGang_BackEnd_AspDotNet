@@ -26,9 +26,9 @@ namespace MountainGoatGang.Repository
         [StringLength(1000)]
         public string Description { get; set; }
 
-        public virtual IQueryable<User> Users { get; set; }
+        public virtual ICollection<User> Users { get; set; }
 
-        public virtual IQueryable<Hike> Hikes { get; set; }
+        public virtual ICollection<Hike> Hikes { get; set; }
 
 
     }

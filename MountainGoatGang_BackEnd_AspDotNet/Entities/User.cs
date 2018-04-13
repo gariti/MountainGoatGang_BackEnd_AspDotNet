@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MountainGoatGang.Repository
@@ -8,17 +9,16 @@ namespace MountainGoatGang.Repository
     {
         public int Id { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string FirstName { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string LastName { get; set; }
 
-        [Required]
         [StringLength(250)]
         public string Email { get; set; }
+
+        public virtual ICollection Groups { get; set; }
 
     }
 }

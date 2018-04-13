@@ -24,7 +24,7 @@ namespace MountainGoatGang.Repository
 
         public TrailDifficulty TrailDifficulty { get; set; }
 
-        public IQueryable<GpsTrack> GpsTracks { get; set; }
+        public ICollection<GpsTrack> GpsTracks { get; set; }
 
         public Hike hike { get; set; }
     }

@@ -20,17 +20,25 @@ namespace MountainGoatGang.Repository
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Group>();
- 
-            modelBuilder.Entity<Hike>();
+            //group has many to many relationship with users & hikes
+            modelBuilder.Entity<Group>()
+                .HasMany(g => g.Users).WithMany();
 
-            modelBuilder.Entity<Trail>();
+            modelBuilder.Entity<Group>()
+                .HasMany(g => g.Hikes).WithMany();
+
+            //Hike has many to many relationship with trails
+            modelBuilder.Entity<Hike>()
+                .HasMany(h => h.Trails).WithMany();
+
 
             modelBuilder.Entity<User>();
+
+            modelBuilder.Entity<Trail>()
+                .HasOptional(t => t.GpsTracks);
 
             modelBuilder.Entity<GpsTrack>();
 
         }
-
     }
 }

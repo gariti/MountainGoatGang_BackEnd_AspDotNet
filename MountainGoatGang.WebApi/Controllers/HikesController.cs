@@ -4,6 +4,7 @@ using System.Data.Entity;
 using System.Web.Http;
 using Marvin.JsonPatch;
 using MountainGoatGang.Repository;
+using System.Collections.Generic;
 
 namespace MountainGoatGang
 {
@@ -30,7 +31,7 @@ namespace MountainGoatGang
         }
 
         [Route("groups/{GroupId}/hikes")]
-        public IQueryable<Hike> Get(int groupId)
+        public ICollection<Hike> Get(int groupId)
         {
             return _repository.GetHikesForGroupId(groupId);
         }

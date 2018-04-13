@@ -115,7 +115,7 @@
     <Compile Include="Entities\Group.cs" />
     <Compile Include="Entities\Hike.cs" />
     <Compile Include="HikeStatus.cs" />
-    <Compile Include="MountainGoatGangDBInitializer.cs" />
+    <Compile Include="Context\MountainGoatGangDBInitializer.cs" />
     <Compile Include="Repository\IMountainGoatGangRepository.cs" />
     <Compile Include="Context\MountainGoatGangContext.cs" />
     <Compile Include="Entities\Trail.cs" />

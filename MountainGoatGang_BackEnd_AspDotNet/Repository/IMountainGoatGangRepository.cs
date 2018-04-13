@@ -1,4 +1,5 @@
-﻿using System.Data.Entity;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace MountainGoatGang.Repository
@@ -25,7 +26,7 @@ namespace MountainGoatGang.Repository
         void UpdateTrail(Trail h);
         void AddTrail(Trail t);
         void DeleteTrail(int id);
-        IQueryable<Hike> GetHikesForGroupId(int groupId);
-        IQueryable<Trail> GetTrailsForHikeId(int hikeId);
+        ICollection<Hike> GetHikesForGroupId(int groupId);
+        ICollection<Trail> GetTrailsForHikeId(int hikeId);
     }
 }
