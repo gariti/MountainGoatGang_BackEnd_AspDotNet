@@ -26,7 +26,11 @@ namespace MountainGoatGang.WebApi.Controllers
         [ResponseType(typeof(Group))]
         public IHttpActionResult GetGroup(int id)
         {
-            Group group = db.Groups.Find(id);
+            Group group = db.Groups
+                .Include(g => g.Users)
+                .Include(g => g.Hikes.Select(h => h.Trails))
+                .Single(g => g.Id == id);
+
             if (group == null)
             {
                 return NotFound();
