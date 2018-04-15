@@ -19,7 +19,10 @@ namespace MountainGoatGang.WebApi.Controllers
         // GET: api/Groups
         public IQueryable<Group> GetGroups()
         {
-            return db.Groups;
+            return db.Groups
+                .Include(g => g.Users)
+                .Include(g => g.Hikes)
+                .Include("Hikes.Trails");
         }
 
         // GET: api/Groups/5
@@ -28,7 +31,8 @@ namespace MountainGoatGang.WebApi.Controllers
         {
             Group group = db.Groups
                 .Include(g => g.Users)
-                .Include(g => g.Hikes.Select(h => h.Trails))
+                .Include(g => g.Hikes)
+                .Include("Hikes.Trails")
                 .Single(g => g.Id == id);
 
             if (group == null)
